@@ -267,3 +267,9 @@ def test_generate_board_contains_no_empty_cells():
     
     for row in board:
         assert 0 not in row
+        
+        
+
+def test_generate_complete_board_returns_valid_sudoku():
+    board = generate_complete_board()
+    assert is_board_valid(board) is True
