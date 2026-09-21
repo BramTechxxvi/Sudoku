@@ -48,7 +48,15 @@ def is_board_valid(board: list[list[int]]) -> bool:
     return True
 
 
+
 def solve_board(board: list[list[int]]) -> bool:
+    if not is_board_valid(board):
+        return False
+    return _solve_board(board)
+
+
+
+def _solve_board(board: list[list[int]]) -> bool:
     empty_cell = find_empty_cell(board)
 
     if empty_cell is None:
@@ -59,6 +67,7 @@ def solve_board(board: list[list[int]]) -> bool:
     for number in range(1, 10):
         if is_valid_move(board, row, col, number):
             board[row][col] = number
+            
             if solve_board(board):
                 return True
             board[row][col] = 0
