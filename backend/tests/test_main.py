@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from app.main import app
-from app.services.sudoku_engine import is_valid_move
+from app.services.sudoku_engine import is_valid_move, find_empty_cell
 
 client = TestClient(app)
 
@@ -82,3 +82,21 @@ def test_invalid_move_returns_false_when_number_exists_in_same_box():
     ]
     result = is_valid_move(board, row=7, col=6, number=8)
     assert result is False
+    
+
+def test_find_empty_cell_returns_first_empty_position():
+    board = [
+        [5,3,0, 0,7,0, 0,0,0],
+        [6,0,0, 1,9,5, 0,0,0],
+        [0,9,8, 0,0,0, 0,6,0],
+        
+        [8,0,0, 0,6,0, 0,0,3],
+        [4,0,0, 8,0,3, 0,0,1],
+        [7,0,0, 0,2,0, 0,0,6],
+        
+        [0,6,0, 0,0,0, 2,8,0],
+        [0,0,0, 4,1,9, 0,0,5],
+        [0,0,0, 0,8,0, 0,7,9],
+    ]
+    result = find_empty_cell(board)
+    assert result == (0, 2)

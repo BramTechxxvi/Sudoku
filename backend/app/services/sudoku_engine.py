@@ -15,3 +15,12 @@ def is_valid_move(board, row: int, col: int, number: int) -> bool:
                 return False
             
     return True
+
+
+def find_empty_cell(board):
+    for row in range(9):
+        for col in range(9):
+            if board[row][col] == 0:
+                return row, col
+    
+    return None
