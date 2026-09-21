@@ -232,3 +232,21 @@ def test_count_solutions_returns_one_for_completed_valid_board():
     ]
     result = count_solutions(board)
     assert result == 1
+
+
+def test_count_solutions_returns_zero_for_invalid_board():
+    board = [
+        [5, 5, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ]
+    
+    assert count_solutions(board) == 0

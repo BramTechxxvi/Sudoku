@@ -76,4 +76,26 @@ def _solve_board(board: list[list[int]]) -> bool:
 
 
 def count_solutions(board: list[list[int]])-> int:
-    pass
+    if not is_board_valid(board):
+        return 0
+    
+    return _count_solutions(board)
+
+
+def _count_solutions(board: list[list[int]]) -> int:
+    empty_cell = find_empty_cell(board)
+    if empty_cell is None:
+        return 1
+    
+    row, col = empty_cell
+    solutions_count = 0
+    
+    for number in range(1,10):
+        if is_valid_move(board, row, col, number):
+            board[row][col] = number
+        
+        solutions_count += _count_solutions(board)
+        board[row][col] = 0
+        
+    return solutions_count
+    
