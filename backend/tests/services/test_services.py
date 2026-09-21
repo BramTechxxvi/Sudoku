@@ -1,6 +1,6 @@
 from app.services.sudoku_engine import (
     is_valid_move, find_empty_cell, is_board_valid, 
-    solve_board, count_solutions,
+    solve_board, count_solutions, generate_complete_board
 )
 
 
@@ -250,3 +250,12 @@ def test_count_solutions_returns_zero_for_invalid_board():
     ]
     
     assert count_solutions(board) == 0
+    
+    
+    
+def test_generate_complete_board_returns_9_by_9_board():
+    board = generate_complete_board()
+    assert len(board) == 9
+    
+    for row in board:
+        assert len(row) == 9
