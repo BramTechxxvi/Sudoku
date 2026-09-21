@@ -1,3 +1,5 @@
+import random
+
 def is_valid_move(board, row: int, col: int, number: int) -> bool:
     if number in board[row]:
         return False
@@ -64,3 +66,53 @@ def solve_board(board: list[list[int]]) -> bool:
             board[row][col] = 0
     return False
 
+
+
+def create_puzzle(board: list[list[int]], cells_to_remove: int) -> list[list[int]]:
+    puzzle = [row[:] for row in board]
+
+    cells = [(row, col) for row in range(9) for col in range(9)]
+
+    random.shuffle(cells)
+
+    removed = 0
+
+    for row, col in cells:
+        if removed >= cells_to_remove:
+            break
+
+        original_number = puzzle[row][col]
+
+        puzzle[row][col] = 0
+
+        if count_solutions(puzzle) == 1:
+            removed += 1
+        else:
+            puzzle[row][col] = original_number
+
+    return puzzle
+
+def generate_puzzle(difficulty: str) -> list[list[int]]:
+    settings = get_difficulty_settings(difficulty)
+
+    board = generate_complete_board()
+
+    puzzle = create_puzzle(
+        board,
+        settings["cells_to_remove"]
+    )
+
+    return puzzle
+
+
+
+def make_move(board: list[list[int]], row: int, col: int, number: int) -> bool:
+    if number == 0:
+        board[row][col] = 0
+        return True
+
+    if is_valid_move(board, row, col, number):
+        board[row][col] = number
+        return True
+
+    return False
