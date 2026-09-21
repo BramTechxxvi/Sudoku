@@ -24,3 +24,43 @@ def find_empty_cell(board):
                 return row, col
     
     return None
+
+
+
+
+def is_board_valid(board: list[list[int]]) -> bool:
+    for row in range(9):
+        for col in range(9):
+            number = board[row][col]
+            if number == 0:
+                continue
+            
+            board[row][col] = 0
+
+            if not is_valid_move(board, row, col, number):
+             
+                board[row][col] = number
+                return False
+
+          
+            board[row][col] = number
+
+    return True
+
+
+def solve_board(board: list[list[int]]) -> bool:
+    empty_cell = find_empty_cell(board)
+
+    if empty_cell is None:
+        return True
+
+    row, col = empty_cell
+
+    for number in range(1, 10):
+        if is_valid_move(board, row, col, number):
+            board[row][col] = number
+            if solve_board(board):
+                return True
+            board[row][col] = 0
+    return False
+
