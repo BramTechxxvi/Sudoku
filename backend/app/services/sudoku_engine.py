@@ -68,8 +68,12 @@ def _solve_board(board: list[list[int]]) -> bool:
         if is_valid_move(board, row, col, number):
             board[row][col] = number
             
-            if solve_board(board):
+            if _solve_board(board):
                 return True
             board[row][col] = 0
     return False
 
+
+
+def count_solutions(board: list[list[int]])-> int:
+    pass

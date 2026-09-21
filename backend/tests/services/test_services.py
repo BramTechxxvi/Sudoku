@@ -1,4 +1,7 @@
-from app.services.sudoku_engine import is_valid_move, find_empty_cell, is_board_valid, solve_board
+from app.services.sudoku_engine import (
+    is_valid_move, find_empty_cell, is_board_valid, 
+    solve_board, count_solutions,
+)
 
 
 def test_valid_move_true_when_number_does_not_break_any_rule():
@@ -211,3 +214,21 @@ def test_solve_board_returns_false_for_invalid_board():
     ]
     result = solve_board(board)
     assert result is False
+    
+
+def test_count_solutions_returns_one_for_completed_valid_board():
+    board = [
+        [5, 3, 4, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    result = count_solutions(board)
+    assert result == 1
