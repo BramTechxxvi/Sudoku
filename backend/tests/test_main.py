@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from app.services.sudoku_engine import is_valid_move
 
 client = TestClient(app)
 
@@ -20,7 +21,9 @@ def test_valid_move_true_when_numbr_does_not_break_any_rule():
         [4,0,0, 8,0,3, 0,0,1],
         [7,0,0, 0,2,0, 0,0,6],
         
-        [0, 6, 0, 0, 0, 0, 2, 8, 0],
-        [0, 0, 0, 4, 1, 9, 0, 0, 5],
-        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+        [0,6,0, 0,0,0, 2,8,0],
+        [0,0,0, 4,1,9, 0,0,5],
+        [0,0,0, 0,8,0, 0,7,9],
     ]
+    result = is_valid_move(board, row=0, col=2, number=4)
+    assert result is True
