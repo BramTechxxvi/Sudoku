@@ -1,4 +1,4 @@
-from app.services.sudoku_engine import is_valid_move, find_empty_cell
+from app.services.sudoku_engine import is_valid_move, find_empty_cell, is_board_valid
 
 
 def test_valid_move_true_when_number_does_not_break_any_rule():
@@ -107,3 +107,21 @@ def test_find_empty_cell_returns_None_when_board_is_full():
     ]
     result = find_empty_cell(board)
     assert result is None
+    
+
+def test_is_board_valid_returns_false_for_duplicate_in_a_row():
+    board = [
+        [5,5,0, 0,7,0, 0,0,0],
+        [6,0,0, 1,9,5, 0,0,0],
+        [0,9,8, 0,0,0, 0,6,0],
+
+        [8,0,0, 0,6,0, 0,0,3],
+        [4,0,0, 8,0,3, 0,0,1],
+        [7,0,0, 0,2,0, 0,0,6],
+
+        [0,6,0, 0,0,0, 2,8,0],
+        [0,0,0, 4,1,9, 0,0,5],
+        [0,0,0, 0,8,0, 0,7,9],
+    ]
+    result = is_board_valid(board)
+    assert result is False
