@@ -1,3 +1,7 @@
+import random
+
+
+
 def is_valid_move(board, row: int, col: int, number: int) -> bool:
     if number in board[row]:
         return False
@@ -98,4 +102,37 @@ def _count_solutions(board: list[list[int]]) -> int:
         board[row][col] = 0
         
     return solutions_count
+
+
+
+def generate_complete_board()-> list[list[int]]:
+    board = [
+        [0 for _ in range(9)]
+        for _ in range(9)
+    ]
+    _fill_board_randomly(board)
+    return board
+
+
+def _fill_board_randomly(board: list[list[int]]):
+    empty_cell = find_empty_cell(board)
+    
+    if empty_cell is None:
+        return True
+    
+    row, col = empty_cell
+    numbers = list(range(1,10))
+    random.shuffle(numbers)
+    
+    for number in numbers:
+        if is_valid_move(board, row, col, number):
+            board[row][col] = number
+            
+            if _fill_board_randomly(board):
+                return True
+            
+            board[row][col] = 0
+            
+    return False
+
     
