@@ -259,3 +259,11 @@ def test_generate_complete_board_returns_9_by_9_board():
     
     for row in board:
         assert len(row) == 9
+        
+        
+    
+def test_generate_board_contains_no_empty_cells():
+    board = generate_complete_board()
+    
+    for row in board:
+        assert 0 not in row
