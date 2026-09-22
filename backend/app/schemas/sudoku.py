@@ -27,11 +27,10 @@ class BoardRequest(BaseModel):
     
     
     
-class MoveRequest(BaseModel):
-    board: list[list[int]]
-    row: int
-    col: int
-    number: int
+class MoveRequest(BoardRequest):
+    row: int = Field(ge=0,le=8)
+    col: int = Field(ge=0,le=8)
+    number: int = Field(ge=0, le=9)
     
     
 class HintResponse(BaseModel):
