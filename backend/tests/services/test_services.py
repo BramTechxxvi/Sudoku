@@ -494,7 +494,7 @@ def test_get_hint_des_not_modify_original_board():
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
         [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
-    # original_board = [ row[:] for row in board]
-    # get_hint(board)
+    original_board = [ row[:] for row in board]
+    get_hint(board)
     
-    # assert original_board == board
+    assert original_board == board
