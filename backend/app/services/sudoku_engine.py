@@ -206,4 +206,6 @@ def make_move(board: list[list[int]], row: int, col: int, number: int) -> bool:
 
 
 def is_complete(board: list[list[int]]) -> bool:
-    pass
+    if find_empty_cell(board) is not None:
+        return False
+    return is_board_valid(board)
