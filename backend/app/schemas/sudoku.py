@@ -5,7 +5,7 @@ from typing import Literal, Annotated
 
 Difficulty = Literal["easy", "medium", "hard"]
 SudokuValue = Annotated[
-    int, Field(ge=0, le=2)
+    int, Field(ge=0, le=9)
 ]
 
 

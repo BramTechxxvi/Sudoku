@@ -36,7 +36,7 @@ def test_new_game_returns_generated_puzzle():
         
 def test_new_game_rejects_invalid_difficulty():
     response = client.get(f"{BASE_URL}/new", params={"difficulty": "insame"})
-    assert response.status_code == 400
+    assert response.status_code == 422
     
     
 
@@ -70,7 +70,7 @@ def test_hint_returns_hint():
         f"{BASE_URL}/hint",
         json={ "board": BOARD, }
     )
-    response.status_code == 200
+    assert response.status_code == 200
     data = response.json()
     
     assert data["hint"] == {
