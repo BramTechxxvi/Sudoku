@@ -82,7 +82,6 @@ def test_hint_returns_hint():
     
     
     
-    
 def test_solve_returns_solved_board():
     response = client.post(
         f"{BASE_URL}/solve",
