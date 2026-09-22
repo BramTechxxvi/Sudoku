@@ -137,3 +137,34 @@ def test_move_rejects_number_above_nine():
     )
 
     assert response.status_code == 422
+    
+    
+    
+def test_check_rejects_board_with_less_than_nine_rows():
+    invalid_board = BOARD[:8]
+
+    response = client.post(
+        f"{BASE_URL}/check",
+        json={
+            "board": invalid_board
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_check_rejects_board_with_less_than_nine_columns():
+    invalid_board = [
+        row[:] for row in BOARD
+    ]
+
+    invalid_board[0] = invalid_board[0][:8]
+
+    response = client.post(
+        f"{BASE_URL}/check",
+        json={
+            "board": invalid_board
+        }
+    )
+
+    assert response.status_code == 422
