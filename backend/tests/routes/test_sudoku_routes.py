@@ -14,3 +14,9 @@ def test_new_game_returns_generated_puzzle():
     
     for row in data["puzzle"]:
         assert len(row) == 9
+        
+        
+        
+def test_new_game_rejects_invalid_difficulty():
+    response = client.get("/api/v1/sudoku/new", params={"difficulty": "insame"})
+    assert response.status_code == 400
