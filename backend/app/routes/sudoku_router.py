@@ -5,7 +5,8 @@ from app.services.sudoku_engine import (
     is_complete, get_hint, solve_board
 )
 from app.schemas.sudoku import (
-    BoardRequest, MoveRequest, HintResponse
+    BoardRequest, CheckResponse, Difficulty, MoveRequest, 
+    HintResponse, MoveResponse, NewGameResponse, SolveResponse
 )
 
 
@@ -17,22 +18,16 @@ router = APIRouter(
 )
 
 
-@router.get("/new")
-def create_new_game(difficulty: str="easy"):
-    try:
-        puzzle = generate_puzzle(difficulty)
-        return {
-            "difficulty": difficulty,
-            "puzzle": puzzle
-        }
-    except ValueError as error:
-        raise HTTPException(
-            status_code=400,
-            detail=str(error)
-        )
-        
+@router.get("/new", response_model=NewGameResponse)
+def create_new_game(difficulty: Difficulty="easy"):
+    puzzle = generate_puzzle(difficulty)
+    return {
+        "difficulty": difficulty,
+        "puzzle": puzzle
+    }
+   
 
-@router.post("/move")
+@router.post("/move", response_model=MoveResponse)
 def play_move(request: MoveRequest):
     board = [
         row[:] for row in request.board
@@ -44,7 +39,7 @@ def play_move(request: MoveRequest):
 
 
 
-@router.post("/check")
+@router.post("/check", response_model=CheckResponse)
 def check_board(req: BoardRequest):
     valid = is_board_valid(req.board)
     complete = False
@@ -58,7 +53,7 @@ def check_board(req: BoardRequest):
     }
 
 
-@router.post("/hint")
+@router.post("/hint", response_model=HintResponse)
 def hint(req: BoardRequest):
     result = get_hint(req.board)
     if result is None:
@@ -75,7 +70,7 @@ def hint(req: BoardRequest):
 
 
 
-@router.post("/solve")
+@router.post("/solve", response_model=SolveResponse)
 def solve(req: BoardRequest):
     board = [ row[:] for row in req.board ]
     solved = solve_board(board)
