@@ -203,3 +203,7 @@ def make_move(board: list[list[int]], row: int, col: int, number: int) -> bool:
 
     return False
 
+
+
+def is_complete(board: list[list[int]]) -> bool:
+    pass

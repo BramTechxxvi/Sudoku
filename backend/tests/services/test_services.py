@@ -1,8 +1,8 @@
 import pytest
 from app.services.sudoku_engine import (
-    is_valid_move, find_empty_cell, is_board_valid, 
-    solve_board, count_solutions, generate_complete_board,
-    create_puzzle, generate_puzzle, make_move,
+    is_valid_move, find_empty_cell, is_board_valid, solve_board, 
+    count_solutions, generate_complete_board, create_puzzle, 
+    generate_puzzle, make_move, is_complete
 )
 
 
@@ -312,7 +312,7 @@ def test_create_puzzle_rjects_invalid_difficulty():
         
 
 
-def test_count_solutions_respects_limit():
+def test_count_solutions_stops_at_limit():
     board = [
         [5, 3, 4, 0, 0, 8, 9, 1, 2],
         [6, 7, 2, 1, 9, 5, 3, 0, 0],
@@ -403,3 +403,22 @@ def test_make_move_allows_cell_to_be_cleared():
     result = make_move(board, row=0 , col=2 , number=0)
     assert result is True
     assert board[0][2] == 0
+    
+    
+    
+def test_is_complete_returns_true_for_a_completed_valid_board():
+    board = [
+        [5, 3, 4, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    result = is_complete(board)
+    assert result is True
