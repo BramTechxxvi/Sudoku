@@ -2,7 +2,7 @@ import pytest
 from app.services.sudoku_engine import (
     is_valid_move, find_empty_cell, is_board_valid, 
     solve_board, count_solutions, generate_complete_board,
-    create_puzzle
+    create_puzzle, generate_puzzle
 )
 
 
@@ -328,3 +328,12 @@ def test_count_solutions_respects_limit():
     ]
     result = count_solutions(board, limit=2)
     assert result == 2
+    
+    
+def test_generate_puzzle_returns_playable_puzzle():
+    puzzle = generate_puzzle("easy")
+    empty_cells=sum(row.count(0) for row in puzzle)
+    
+    assert empty_cells > 0
+    assert is_board_valid(puzzle is True)
+    assert count_solutions(puzzle) == 1
