@@ -168,7 +168,7 @@ def create_puzzle(board: list[list[int]], difficulty: str) -> list[list[int]]:
 
         puzzle[row][col] = 0
 
-        if count_solutions(puzzle) == 1:
+        if count_solutions(puzzle, limit=2) == 1:
             removed += 1
         else:
             puzzle[row][col] = original_number
