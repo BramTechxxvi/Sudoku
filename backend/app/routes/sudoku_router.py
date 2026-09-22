@@ -44,8 +44,18 @@ def play_move(request: MoveRequest):
 
 
 
-# @router.post("/check")
-
+@router.post("/check")
+def check_board(req: BoardRequest):
+    valid = is_board_valid(req.board)
+    complete = False
+    
+    if valid:
+        complete = is_complete(req.board)
+        
+    return {
+        "valid": valid,
+        "complete": complete
+    }
 
 
 # @router.post("/hint")

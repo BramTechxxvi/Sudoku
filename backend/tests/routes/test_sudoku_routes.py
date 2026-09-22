@@ -57,7 +57,7 @@ def test_check_incomplete_board():
         f"{BASE_URL}/check", 
         json={"board": BOARD})
     
-    assert response == 200
+    assert response.status_code == 200
     data = response.json()
     
     assert data["valid"] is True
@@ -76,7 +76,8 @@ def test_hint_returns_hint():
     assert data["hint"] == {
         "row": 0,
         "col": 2,
-        "number": 4
+        "number": 4@router.post("/check")
+
     }
     
     
