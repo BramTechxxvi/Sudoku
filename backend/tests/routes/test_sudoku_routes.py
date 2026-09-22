@@ -65,16 +65,16 @@ def test_check_incomplete_board():
     
     
     
-# def test_hint_returns_hint():
-#     response = client.post(
-#         f"{BASE_URL}/hint",
-#         json={ "board": BOARD, }
-#     )
-#     response.status_code == 200
-#     data = response.json()
+def test_hint_returns_hint():
+    response = client.post(
+        f"{BASE_URL}/hint",
+        json={ "board": BOARD, }
+    )
+    response.status_code == 200
+    data = response.json()
     
-#     assert data["hint"] == {
-#         "row": 0,
-#         "col": 2,
-#         "number": 4
-#     }
+    assert data["hint"] == {
+        "row": 0,
+        "col": 2,
+        "number": 4
+    }
