@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
 from app.services.sudoku_engine import (
-    generate_puzzle
+    generate_puzzle, make_move, is_board_valid, 
+    is_complete, get_hint, solve_board
 )
 
 router = APIRouter(
@@ -31,12 +32,12 @@ def make_move():
 
 
 
-@router.post("/check")
+# @router.post("/check")
 
 
 
-@router.post("/hint")
-<
+# @router.post("/hint")
 
 
-@router.post("/solve")
+
+# @router.post("/solve")
