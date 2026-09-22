@@ -285,3 +285,12 @@ def test_create_puzzle_creates_empty_cells():
     assert empty_cells > 0
     
     
+    
+    
+def test_create_puzzle_does_not_modify_original_board():
+    complete_board = generate_complete_board()
+    original_board = [
+        row[:] for row in complete_board
+    ]
+    create_puzzle(complete_board, difficulty="easy")
+    assert complete_board == original_board
