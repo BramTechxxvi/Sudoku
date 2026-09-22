@@ -4,6 +4,12 @@ from app.services.sudoku_engine import (
     generate_puzzle, make_move, is_board_valid, 
     is_complete, get_hint, solve_board
 )
+from app.schemas.sudoku import (
+    BoardRequest, MoveRequest, HintResponse
+)
+
+
+
 
 router = APIRouter(
     prefix="/api/v1/sudoku",
@@ -27,8 +33,14 @@ def create_new_game(difficulty: str="easy"):
         
 
 @router.post("/move")
-def make_move():
-    pass
+def make_move(request: MoveRequest):
+    board = [
+        row[:] for row in request.board
+    ]
+    valid = make_move(
+        board, request.row, request.col, request.number
+    )
+    return { "valid": valid, "board": board}
 
 
 
