@@ -92,3 +92,48 @@ def test_solve_returns_solved_board():
     data = response.json()
     assert data["solved"] is True
     assert data["board"][0][2] == 4
+    
+    
+    
+    
+def test_move_rejects_row_above_eight():
+    response = client.post(
+        f"{BASE_URL}/move",
+        json={
+            "board": BOARD,
+            "row": 9,
+            "col": 2,
+            "number": 4,
+        }
+    )
+
+    assert response.status_code == 422
+
+
+
+def test_move_rejects_negative_column():
+    response = client.post(
+        f"{BASE_URL}/move",
+        json={
+            "board": BOARD,
+            "row": 0,
+            "col": -1,
+            "number": 4,
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_move_rejects_number_above_nine():
+    response = client.post(
+        f"{BASE_URL}/move",
+        json={
+            "board": BOARD,
+            "row": 0,
+            "col": 2,
+            "number": 10,
+        }
+    )
+
+    assert response.status_code == 422
