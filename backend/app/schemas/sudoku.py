@@ -1,9 +1,30 @@
-from pydantic import BaseModel, Field, field_validator
-from typing import Literal
+from pydantic import BaseModel, Field
+from typing import Literal, Annotated
 
 
 
 Difficulty = Literal["easy", "medium", "hard"]
+SudokuValue = Annotated[
+    int, Field(ge=0, le=2)
+]
+
+
+SudokuRow = Annotated[
+    list[SudokuValue],
+    Field(
+        min_length=9,
+        max_length=9,
+    ),
+]
+
+
+SudokuBoard = Annotated[
+    list[SudokuRow],
+    Field(
+        min_length=9,
+        max_length=9,
+    ),
+]
 
 class BoardRequest(BaseModel):
     board: list[list[int]]

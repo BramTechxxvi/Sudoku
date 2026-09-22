@@ -18,8 +18,8 @@ router = APIRouter(
 )
 
 
-@router.get("/new")
-def create_new_game(difficulty: str="easy"):
+@router.get("/new", response_model=NewGameResponse)
+def create_new_game(difficulty: Difficulty="easy"):
     puzzle = generate_puzzle(difficulty)
     return {
         "difficulty": difficulty,
@@ -53,7 +53,7 @@ def check_board(req: BoardRequest):
     }
 
 
-@router.post("/hint")
+@router.post("/hint", response_model=HintResponse)
 def hint(req: BoardRequest):
     result = get_hint(req.board)
     if result is None:
@@ -70,7 +70,7 @@ def hint(req: BoardRequest):
 
 
 
-@router.post("/solve")
+@router.post("/solve", response_model=SolveResponse)
 def solve(req: BoardRequest):
     board = [ row[:] for row in req.board ]
     solved = solve_board(board)
