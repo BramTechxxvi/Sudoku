@@ -2,7 +2,7 @@ import pytest
 from app.services.sudoku_engine import (
     is_valid_move, find_empty_cell, is_board_valid, solve_board, 
     count_solutions, generate_complete_board, create_puzzle, 
-    generate_puzzle, make_move, is_complete
+    generate_puzzle, make_move, is_complete, get_hint,
 )
 
 
@@ -458,3 +458,43 @@ def test_is_complete_false_for_full_invalid_board():
         [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
     assert is_complete(board) is False
+    
+    
+    
+def test_get_hint_returns_correct_value_for_empty_cell():
+    board = [
+        [5, 3, 0, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    hint = get_hint
+    assert hint == (0,2,4)
+    
+    
+    
+def test_get_hint_des_not_modify_original_board():
+    board = [
+        [5, 3, 0, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    # original_board = [ row[:] for row in board]
+    # get_hint(board)
+    
+    # assert original_board == board
