@@ -178,13 +178,14 @@ def create_puzzle(board: list[list[int]], difficulty: str) -> list[list[int]]:
 
 
 def generate_puzzle(difficulty: str) -> list[list[int]]:
-    settings = get_difficulty_settings(difficulty)
+    # settings = get_difficulty_settings(difficulty)
 
     board = generate_complete_board()
 
     puzzle = create_puzzle(
         board,
-        settings["cells_to_remove"]
+        difficulty
+        # settings["cells_to_remove"]
     )
 
     return puzzle
