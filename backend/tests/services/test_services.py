@@ -294,3 +294,10 @@ def test_create_puzzle_does_not_modify_original_board():
     ]
     create_puzzle(complete_board, difficulty="easy")
     assert complete_board == original_board
+    
+    
+    
+def test_create_puzzle_has_only_one_solution():
+    complete_board = generate_complete_board()
+    puzzle = create_puzzle(complete_board, difficulty="easy")
+    assert count_solutions(puzzle) ==1

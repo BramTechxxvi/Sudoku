@@ -151,17 +151,17 @@ def create_puzzle(board: list[list[int]], difficulty: str) -> list[list[int]]:
     removed = 0
 
     for row, col in cells:
-        if removed >= cells_to_remove:
+        if removed >= target:
             break
 
-        original_number = puzzle[row][col]
+        # original_number = puzzle[row][col]
 
         puzzle[row][col] = 0
 
-        if count_solutions(puzzle) == 1:
-            removed += 1
-        else:
-            puzzle[row][col] = original_number
+        # if count_solutions(puzzle) == 1:
+        removed += 1
+        # else:
+        #     puzzle[row][col] = original_number
 
     return puzzle
 
