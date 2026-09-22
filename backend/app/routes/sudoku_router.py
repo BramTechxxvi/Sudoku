@@ -23,3 +23,20 @@ def create_new_game(difficulty: str="easy"):
             status_code=400,
             detail=str(error)
         )
+        
+
+@router.post("/move")
+def make_move():
+    pass
+
+
+
+@router.post("/check")
+
+
+
+@router.post("/hint")
+
+
+
+@router.post("/solve")
