@@ -36,7 +36,7 @@ def test_new_game_returns_generated_puzzle():
         
 def test_new_game_rejects_invalid_difficulty():
     response = client.get(f"{BASE_URL}/new", params={"difficulty": "insame"})
-    assert response.status_code == 400
+    assert response.status_code == 422
     
     
 
@@ -70,7 +70,7 @@ def test_hint_returns_hint():
         f"{BASE_URL}/hint",
         json={ "board": BOARD, }
     )
-    response.status_code == 200
+    assert response.status_code == 200
     data = response.json()
     
     assert data["hint"] == {
@@ -92,3 +92,83 @@ def test_solve_returns_solved_board():
     data = response.json()
     assert data["solved"] is True
     assert data["board"][0][2] == 4
+    
+    
+    
+    
+def test_move_rejects_row_above_eight():
+    response = client.post(
+        f"{BASE_URL}/move",
+        json={
+            "board": BOARD,
+            "row": 9,
+            "col": 2,
+            "number": 4,
+        }
+    )
+
+    assert response.status_code == 422
+
+
+
+def test_move_rejects_negative_column():
+    response = client.post(
+        f"{BASE_URL}/move",
+        json={
+            "board": BOARD,
+            "row": 0,
+            "col": -1,
+            "number": 4,
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_move_rejects_number_above_nine():
+    response = client.post(
+        f"{BASE_URL}/move",
+        json={
+            "board": BOARD,
+            "row": 0,
+            "col": 2,
+            "number": 10,
+        }
+    )
+
+    assert response.status_code == 422
+    
+    
+    
+def test_check_rejects_board_with_less_than_nine_rows():
+    invalid_board = BOARD[:8]
+
+    response = client.post(
+        f"{BASE_URL}/check",
+        json={
+            "board": invalid_board
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_check_rejects_board_with_less_than_nine_columns():
+    invalid_board = [
+        row[:] for row in BOARD
+    ]
+
+    invalid_board[0] = invalid_board[0][:8]
+
+    response = client.post(
+        f"{BASE_URL}/check",
+        json={
+            "board": invalid_board
+        }
+    )
+
+    assert response.status_code == 422
+    
+    
+
+
