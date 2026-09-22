@@ -58,7 +58,20 @@ def check_board(req: BoardRequest):
     }
 
 
-# @router.post("/hint")
+@router.post("/hint")
+def hint(req: BoardRequest):
+    result = get_hint(req.board)
+    if result is None:
+        return { "hint": None }
+    
+    row, col, number = result
+    return {
+        "hint": {
+            "row": row,
+            "col": col,
+            "number": number
+        }
+    }
 
 
 

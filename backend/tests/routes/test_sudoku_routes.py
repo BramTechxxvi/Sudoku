@@ -76,7 +76,7 @@ def test_hint_returns_hint():
     assert data["hint"] == {
         "row": 0,
         "col": 2,
-        "number": 4@router.post("/check")
+        "number": 4
 
     }
     
