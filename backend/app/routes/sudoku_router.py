@@ -75,4 +75,12 @@ def hint(req: BoardRequest):
 
 
 
-# @router.post("/solve")
+@router.post("/solve")
+def solve(req: BoardRequest):
+    board = [ row[:] for row in req.board ]
+    solved = solve_board(board)
+    
+    return {
+        "solved": solved,
+        "board": board
+    }
