@@ -33,7 +33,7 @@ def create_new_game(difficulty: str="easy"):
         
 
 @router.post("/move")
-def make_move(request: MoveRequest):
+def play_move(request: MoveRequest):
     board = [
         row[:] for row in request.board
     ]
