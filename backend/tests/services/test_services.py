@@ -475,8 +475,8 @@ def test_get_hint_returns_correct_value_for_empty_cell():
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
         [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
-    hint = get_hint
-    assert hint == (0,2,4)
+    hint = get_hint(board)
+    assert hint == (0, 2, 4)
     
     
     

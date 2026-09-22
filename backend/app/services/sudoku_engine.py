@@ -209,3 +209,20 @@ def is_complete(board: list[list[int]]) -> bool:
     if find_empty_cell(board) is not None:
         return False
     return is_board_valid(board)
+
+
+
+def get_hint(board: list[list[int]]) -> tuple[int,int,int] | None:
+    if not is_board_valid(board):
+        return None
+    
+    empty_cell = find_empty_cell(board)
+    if empty_cell is None:
+        return None
+    
+    board_copy = [row[:] for row in board]
+    if not solve_board(board_copy):
+        return None
+    
+    row, col = empty_cell
+    return (row, col, board_copy[row][col])
