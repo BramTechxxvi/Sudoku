@@ -1,6 +1,7 @@
-let currentBoard = [];
-let givenCells = [];
-let solutionBoard = []; 
+const API_BASE = "http:localhost:8000/api/v1/sudoku";
+
+let currentBoard = []; 
+let givenCells = [];     
 
 const boardEl = document.getElementById("board");
 const messageEl = document.getElementById("message");
@@ -43,36 +44,71 @@ function renderBoard() {
     });
 }
 
+
+async function apiNewGame(difficulty) {
+    const res = await fetch(`${API_BASE}/new?difficulty=${difficulty}`);
+    return res.json();
+}
+
+async function apiPlayMove(board, row, col, number) {
+    const res = await fetch(`${API_BASE}/move`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ board, row, col, number })
+    });
+    return res.json(); 
+}
+
+async function apiCheckBoard(board) {
+    const res = await fetch(`${API_BASE}/check`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ board })
+    });
+    return res.json(); 
+}
+
+async function apiHint(board) {
+    const res = await fetch(`${API_BASE}/hint`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ board })
+    });
+    return res.json();
+}
+
+async function apiSolve(board) {
+    const res = await fetch(`${API_BASE}/solve`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ board })
+    });
+    return res.json(); 
+}
+
 async function onCellInput(e) {
     const cell = e.target;
     const r = +cell.dataset.row;
     const c = +cell.dataset.col;
-    let val = cell.value.replace(/[^1-9]/g, ""); // only allow digits 1-9
+    let val = cell.value.replace(/[^1-9]/g, ""); 
     cell.value = val;
 
     const num = val === "" ? 0 : parseInt(val);
-    currentBoard[r][c] = num;
     cell.classList.remove("invalid");
 
-    if (num !== 0) {
-        const res = await fetch("/check-cell", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ board: currentBoard, row: r, col: c, num: num })
-        });
-        const data = await res.json();
-        if (!data.valid) {
-            cell.classList.add("invalid");
-        }
+    const { valid, board } = await apiPlayMove(currentBoard, r, c, num);
+    currentBoard = board;
+
+    if (num !== 0 && !valid) {
+        cell.classList.add("invalid");
     }
 
-    checkWin();
+    await checkWin();
 }
 
-function checkWin() {
-    const isFull = currentBoard.every(row => row.every(v => v !== 0));
-    const hasInvalid = document.querySelector(".cell.invalid");
-    if (isFull && !hasInvalid) {
+async function checkWin() {
+    const { valid, complete } = await apiCheckBoard(currentBoard);
+    if (valid && complete) {
         messageEl.textContent = "🎉 Solved!";
         messageEl.style.color = "green";
     } else {
@@ -85,26 +121,45 @@ async function newGame() {
     messageEl.textContent = "Loading...";
     messageEl.style.color = "black";
 
-    const res = await fetch(`/new-game?difficulty=${difficulty}`);
-    const data = await res.json();
+    const { puzzle } = await apiNewGame(difficulty);
 
-    currentBoard = data.puzzle;
-    solutionBoard = data.solution;
+    currentBoard = puzzle;
     givenCells = currentBoard.map(row => row.map(v => v !== 0));
 
     messageEl.textContent = "";
     renderBoard();
 }
 
-function solvePuzzle() {
-    currentBoard = solutionBoard.map(row => row.slice());
+async function useHint() {
+    const { hint } = await apiHint(currentBoard);
+    if (!hint) {
+        messageEl.textContent = "No hint available.";
+        return;
+    }
+    const { row, col, number } = hint;
+    currentBoard[row][col] = number;
+    renderBoard();
+    await checkWin();
+}
+
+async function solvePuzzle() {
+    const { solved, board } = await apiSolve(currentBoard);
+    if (!solved) {
+        messageEl.textContent = "Couldn't solve this board.";
+        messageEl.style.color = "#c0392b";
+        return;
+    }
+    currentBoard = board;
     renderBoard();
     messageEl.textContent = "Solved for you.";
-    messageEl.style.color = "hsl(211, 61%, 43%)";
+    messageEl.style.color = "#2b6cb0";
 }
 
 document.getElementById("new-game-btn").addEventListener("click", newGame);
 document.getElementById("solve-btn").addEventListener("click", solvePuzzle);
+
+const hintBtn = document.getElementById("hint-btn");
+if (hintBtn) hintBtn.addEventListener("click", useHint);
 
 buildGrid();
 newGame();
