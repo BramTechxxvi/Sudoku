@@ -1,3 +1,4 @@
+import pytest
 from app.services.sudoku_engine import (
     is_valid_move, find_empty_cell, is_board_valid, 
     solve_board, count_solutions, generate_complete_board,
@@ -308,3 +309,22 @@ def test_create_puzzle_rjects_invalid_difficulty():
     complete_board = generate_complete_board()
     with pytest.raises(ValueError):
         create_puzzle(complete_board, difficulty="insane")
+        
+
+
+def test_count_solutions_respects_limit():
+    board = [
+        [5, 3, 4, 0, 0, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 0, 0],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+
+        [8, 5, 9, 0, 0, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+
+        [9, 6, 1, 5, 3, 7, 2, 0, 0],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    result = count_solutions(board, limit=2)
+    assert result == 2
