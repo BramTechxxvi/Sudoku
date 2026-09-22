@@ -1,6 +1,7 @@
 from app.services.sudoku_engine import (
     is_valid_move, find_empty_cell, is_board_valid, 
-    solve_board, count_solutions, generate_complete_board
+    solve_board, count_solutions, generate_complete_board,
+    create_puzzle
 )
 
 
@@ -274,5 +275,13 @@ def test_generate_complete_board_returns_valid_sudoku():
     board = generate_complete_board()
     assert is_board_valid(board) is True
     
+    
+    
+    
+def test_create_puzzle_creates_empty_cells():
+    complete_board = generate_complete_board()
+    puzzle = create_puzzle(complete_board, difficulty="easy")
+    empty_cells = sum(row.count(0) for row in puzzle)
+    assert empty_cells > 0
     
     
