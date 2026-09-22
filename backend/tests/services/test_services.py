@@ -2,7 +2,7 @@ import pytest
 from app.services.sudoku_engine import (
     is_valid_move, find_empty_cell, is_board_valid, 
     solve_board, count_solutions, generate_complete_board,
-    create_puzzle, generate_puzzle
+    create_puzzle, generate_puzzle, make_move,
 )
 
 
@@ -337,3 +337,29 @@ def test_generate_puzzle_returns_playable_puzzle():
     assert empty_cells > 0
     assert is_board_valid(puzzle) is True
     assert count_solutions(puzzle) == 1
+    
+    
+    
+def test_generat_puzzle_raises_error_for_invalid_difficuty():
+    with pytest.raises(ValueError):
+        generate_puzzle("IMpossible")
+        
+        
+        
+def test_make_move_places_number_when_move_is_called():
+    board = [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ]
+    result = make_move(board, row=0, col=2, number=4)
+    assert result is True
+    assert board[0][2] == 4
