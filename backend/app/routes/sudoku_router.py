@@ -36,7 +36,7 @@ def make_move():
 
 
 @router.post("/hint")
-
+<
 
 
 @router.post("/solve")

@@ -13,7 +13,7 @@ class MoveRequest(BaseModel):
     number: int
     
     
-class HintRequest(BaseModel):
+class HintResponse(BaseModel):
     row: int
     col: int
     number: int
