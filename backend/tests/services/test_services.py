@@ -297,7 +297,7 @@ def test_create_puzzle_does_not_modify_original_board():
     
     
     
-def test_create_puzzle_has_only_one_solution():
+def test_create_puzzle_has_unique_solution():
     complete_board = generate_complete_board()
     puzzle = create_puzzle(complete_board, difficulty="easy")
     assert count_solutions(puzzle) ==1

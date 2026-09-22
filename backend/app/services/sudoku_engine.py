@@ -97,8 +97,8 @@ def _count_solutions(board: list[list[int]]) -> int:
         if is_valid_move(board, row, col, number):
             board[row][col] = number
         
-        solutions_count += _count_solutions(board)
-        board[row][col] = 0
+            solutions_count += _count_solutions(board)
+            board[row][col] = 0
         
     return solutions_count
 
@@ -154,16 +154,18 @@ def create_puzzle(board: list[list[int]], difficulty: str) -> list[list[int]]:
         if removed >= target:
             break
 
-        # original_number = puzzle[row][col]
+        original_number = puzzle[row][col]
 
         puzzle[row][col] = 0
 
-        # if count_solutions(puzzle) == 1:
-        removed += 1
-        # else:
-        #     puzzle[row][col] = original_number
+        if count_solutions(puzzle) == 1:
+            removed += 1
+        else:
+            puzzle[row][col] = original_number
 
     return puzzle
+
+
 
 def generate_puzzle(difficulty: str) -> list[list[int]]:
     settings = get_difficulty_settings(difficulty)
