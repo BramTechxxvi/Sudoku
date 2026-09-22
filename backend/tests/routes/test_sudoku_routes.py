@@ -78,3 +78,17 @@ def test_hint_returns_hint():
         "col": 2,
         "number": 4
     }
+    
+    
+    
+    
+def test_solve_returns_solved_board():
+    response = client.post(
+        f"{BASE_URL}/solve",
+        json= { "board": BOARD, }
+    )
+    assert response.status_code == 200
+    
+    data = response.json()
+    assert data["solved"] is True
+    assert data["board"][0][2] == 4
