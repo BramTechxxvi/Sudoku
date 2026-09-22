@@ -383,3 +383,8 @@ def test_make_move_returns_false_and_does_change_board_wwhen_move_is_invalid():
     result = make_move(board, row=0, col=2, number=5)
     assert result is False
     assert board[0][2] == 0
+    
+
+
+def test_make_move_allows_cell_to_be_cleared():
+    pass
