@@ -440,3 +440,8 @@ def test_is_complete_returns_false_when_board_has_empty_cells():
         [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
     assert is_complete(board) is False
+    
+
+
+def test_is_complete_false_for_full_invalid_board():
+    pass
