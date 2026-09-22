@@ -335,5 +335,5 @@ def test_generate_puzzle_returns_playable_puzzle():
     empty_cells=sum(row.count(0) for row in puzzle)
     
     assert empty_cells > 0
-    assert is_board_valid(puzzle is True)
+    assert is_board_valid(puzzle) is True
     assert count_solutions(puzzle) == 1
