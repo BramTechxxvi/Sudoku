@@ -26,6 +26,7 @@ class BoardRequest(BaseModel):
     
     
     
+    
 class MoveRequest(BaseModel):
     board: list[list[int]]
     row: int
