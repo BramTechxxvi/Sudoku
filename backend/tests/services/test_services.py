@@ -301,3 +301,10 @@ def test_create_puzzle_has_unique_solution():
     complete_board = generate_complete_board()
     puzzle = create_puzzle(complete_board, difficulty="easy")
     assert count_solutions(puzzle) ==1
+    
+    
+    
+def test_create_puzzle_rjects_invalid_difficulty():
+    complete_board = generate_complete_board()
+    with pytest.raises(ValueError):
+        create_puzzle(complete_board, difficulty="insane")

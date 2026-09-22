@@ -137,12 +137,14 @@ def _fill_board_randomly(board: list[list[int]]):
     
 
 def create_puzzle(board: list[list[int]], difficulty: str) -> list[list[int]]:
-    puzzle = [row[:] for row in board]
     cells_to_remove = {
         "easy": 35,
         "medium": 45,
         "hard": 50,
     }
+    if difficulty not in cells_to_remove:
+        raise ValueError(f"Invalid difficulty: {difficulty}")
+    
     target = cells_to_remove[difficulty]
 
     cells = [(row, col) for row in range(9) for col in range(9)]
