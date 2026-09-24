@@ -15,3 +15,11 @@ dist/
 # Editor / OS
 .vscode/
 .DS_Store
+
+# Environment
+.env
+.env.*
+
+# Editors
+.vscode/
+.idea/
