@@ -23,12 +23,10 @@ function CompletionModalInner({
   const dialogRef = useRef<HTMLDivElement>(null);
   const firstBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Trap focus inside the modal
   useEffect(() => {
     firstBtnRef.current?.focus();
   }, []);
 
-  // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onNewGame();
@@ -45,7 +43,6 @@ function CompletionModalInner({
   ];
 
   return (
-    /* Backdrop */
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4"
       role="dialog"
@@ -55,17 +52,14 @@ function CompletionModalInner({
         if (e.target === e.currentTarget) onNewGame();
       }}
     >
-      {/* Card */}
       <div
         ref={dialogRef}
         className="animate-fade-in bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 flex flex-col items-center gap-6"
       >
-        {/* Icon */}
         <div className="flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-amber-500">
           <Trophy size={32} />
         </div>
 
-        {/* Title */}
         <div className="text-center">
           <h2
             id="completion-title"
@@ -76,7 +70,6 @@ function CompletionModalInner({
           <p className="mt-1 text-slate-500 text-sm">Well done — you solved it!</p>
         </div>
 
-        {/* Stats */}
         <div className="w-full grid grid-cols-2 gap-3">
           {stats.map(({ label, value }) => (
             <div
@@ -93,7 +86,6 @@ function CompletionModalInner({
           ))}
         </div>
 
-        {/* Actions */}
         <div className="flex flex-col w-full gap-2">
           <button
             ref={firstBtnRef}
