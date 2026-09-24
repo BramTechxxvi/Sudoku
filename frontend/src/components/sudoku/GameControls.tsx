@@ -1,12 +1,15 @@
 import { Eraser, Lightbulb, Pencil, RotateCcw, Undo2 } from 'lucide-react';
 import { memo } from 'react';
 
+
+
+
 interface GameControlsProps {
   notesMode: boolean;
   canUndo: boolean;
   hintLoading: boolean;
   solveLoading: boolean;
-  disabled: boolean; // overall disabled (loading / complete / solved)
+  disabled: boolean; 
   onUndo: () => void;
   onErase: () => void;
   onToggleNotes: () => void;

@@ -2,6 +2,9 @@ import { memo } from 'react';
 import type { Difficulty } from '../../types/sudoku';
 import { difficultyLabel, formatTime } from '../../utils/board';
 
+
+
+
 interface GameHeaderProps {
   difficulty: Difficulty;
   elapsed: number;
@@ -18,7 +21,6 @@ const DIFFICULTY_COLOR: Record<Difficulty, string> = {
 function GameHeaderInner({ difficulty, elapsed, mistakes, loading }: GameHeaderProps) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 w-full">
-      {/* Difficulty badge */}
       <span
         className={[
           'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border',
@@ -28,9 +30,7 @@ function GameHeaderInner({ difficulty, elapsed, mistakes, loading }: GameHeaderP
         {loading ? 'Loading…' : difficultyLabel(difficulty)}
       </span>
 
-      {/* Timer + Mistakes */}
       <div className="flex items-center gap-4">
-        {/* Timer */}
         <div className="flex items-center gap-1.5" aria-live="polite" aria-label={`Time: ${formatTime(elapsed)}`}>
           <svg
             className="w-4 h-4 text-slate-400"
@@ -48,7 +48,6 @@ function GameHeaderInner({ difficulty, elapsed, mistakes, loading }: GameHeaderP
           </span>
         </div>
 
-        {/* Mistakes */}
         <div
           className="flex items-center gap-1.5"
           aria-live="polite"
