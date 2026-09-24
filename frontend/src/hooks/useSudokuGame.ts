@@ -22,7 +22,8 @@ import {
 } from '../utils/board';
 import { clearGame, loadGame, saveGame } from '../utils/storage';
 
-// ── Action types ───────────────────────────────────────────────────────────
+
+
 
 type Action =
   | { type: 'LOAD_START' }
@@ -48,7 +49,7 @@ type Action =
   | { type: 'REMOVE_STATUS'; id: number }
   | { type: 'RESTORE_SAVED'; partial: Partial<GameState> };
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+
 
 function emptyBoard(): SudokuBoard {
   return Array.from({ length: 9 }, () => Array(9).fill(0) as number[]);
@@ -80,7 +81,6 @@ const INITIAL_STATE: GameState = {
 
 let _statusId = 0;
 
-// ── Reducer ────────────────────────────────────────────────────────────────
 
 function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
@@ -222,7 +222,6 @@ function reducer(state: GameState, action: Action): GameState {
   }
 }
 
-// ── Hook public interface ──────────────────────────────────────────────────
 
 export interface UseSudokuGameReturn {
   state: GameState;
@@ -238,20 +237,17 @@ export interface UseSudokuGameReturn {
   dismissStatus: (id: number) => void;
 }
 
-// ── Hook implementation ────────────────────────────────────────────────────
 
 export function useSudokuGame(): UseSudokuGameReturn {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [elapsed, setElapsed] = useState(0);
 
-  // Refs to avoid stale closures without re-binding callbacks
   const stateRef = useRef(state);
   stateRef.current = state;
 
   const elapsedRef = useRef(0);
   const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // ── Timer ─────────────────────────────────────────────────────────────
 
   const stopTimer = useCallback(() => {
     if (timerIntervalRef.current !== null) {
@@ -273,15 +269,12 @@ export function useSudokuGame(): UseSudokuGameReturn {
     [stopTimer],
   );
 
-  // Stop the interval when timerRunning goes false
   useEffect(() => {
     if (!state.timerRunning) stopTimer();
   }, [state.timerRunning, stopTimer]);
 
-  // Clean up on unmount
   useEffect(() => () => stopTimer(), [stopTimer]);
 
-  // ── Status messages ───────────────────────────────────────────────────
 
   const addStatus = useCallback(
     (text: string, type: StatusMessage['type'], duration = 3500) => {
@@ -292,7 +285,6 @@ export function useSudokuGame(): UseSudokuGameReturn {
     [],
   );
 
-  // ── Auto-save ─────────────────────────────────────────────────────────
 
   useEffect(() => {
     const s = stateRef.current;
@@ -307,11 +299,8 @@ export function useSudokuGame(): UseSudokuGameReturn {
       hintsUsed: s.hintsUsed,
       notes: s.notes,
     });
-  // Re-run whenever board, mistakes, or hints change
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.board, state.mistakes, state.hintsUsed, state.notes]);
 
-  // ── On mount: restore saved game or start fresh ────────────────────────
 
   const initialised = useRef(false);
 
@@ -346,10 +335,8 @@ export function useSudokuGame(): UseSudokuGameReturn {
     } else {
       void startNewGame('medium');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── New game ──────────────────────────────────────────────────────────
 
   const startNewGame = useCallback(
     async (difficulty: Difficulty) => {
@@ -369,13 +356,11 @@ export function useSudokuGame(): UseSudokuGameReturn {
     [addStatus, startTimer, stopTimer],
   );
 
-  // ── Select cell ────────────────────────────────────────────────────────
 
   const selectCell = useCallback((coord: CellCoord | null) => {
     dispatch({ type: 'SELECT_CELL', coord });
   }, []);
 
-  // ── Enter number ───────────────────────────────────────────────────────
 
   const enterNumber = useCallback(
     async (n: number) => {
@@ -385,7 +370,6 @@ export function useSudokuGame(): UseSudokuGameReturn {
       const { row, col } = selectedCell;
       if (givenCells[row]?.[col]) return;
 
-      // Notes mode: purely client-side
       if (notesMode) {
         dispatch({ type: 'TOGGLE_NOTE_CELL', row, col, n });
         return;
@@ -414,7 +398,6 @@ export function useSudokuGame(): UseSudokuGameReturn {
     [addStatus],
   );
 
-  // ── Erase cell ────────────────────────────────────────────────────────
 
   const eraseCell = useCallback(async () => {
     const { selectedCell, board, givenCells, isComplete, isSolved } = stateRef.current;
@@ -434,7 +417,6 @@ export function useSudokuGame(): UseSudokuGameReturn {
     }
   }, [addStatus]);
 
-  // ── Hint ──────────────────────────────────────────────────────────────
 
   const requestHint = useCallback(async () => {
     const { board, hintLoading, isComplete, isSolved } = stateRef.current;
@@ -465,7 +447,6 @@ export function useSudokuGame(): UseSudokuGameReturn {
     }
   }, [addStatus]);
 
-  // ── Solve ─────────────────────────────────────────────────────────────
 
   const requestSolve = useCallback(async () => {
     const { board, solveLoading } = stateRef.current;
@@ -489,19 +470,16 @@ export function useSudokuGame(): UseSudokuGameReturn {
     }
   }, [addStatus]);
 
-  // ── Undo ──────────────────────────────────────────────────────────────
 
   const undo = useCallback(() => {
     dispatch({ type: 'UNDO' });
   }, []);
 
-  // ── Toggle notes ──────────────────────────────────────────────────────
 
   const toggleNotes = useCallback(() => {
     dispatch({ type: 'TOGGLE_NOTES' });
   }, []);
 
-  // ── Dismiss status ────────────────────────────────────────────────────
 
   const dismissStatus = useCallback((id: number) => {
     dispatch({ type: 'REMOVE_STATUS', id });

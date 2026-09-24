@@ -17,7 +17,7 @@ const API_BASE_URL: string = (() => {
         'Copy .env.example to .env and set VITE_API_BASE_URL.',
     );
   }
-  return url.replace(/\/$/, ''); // strip trailing slash
+  return url.replace(/\/$/, '');
 })();
 
 

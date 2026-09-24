@@ -15,16 +15,8 @@ interface UseKeyboardControlsOptions {
   onEscape: () => void;
 }
 
-/**
- * Attaches global keydown listeners for keyboard-driven Sudoku play.
- *
- * 1–9        → enter number in selected cell
- * 0 / Backspace / Delete → erase selected cell
- * Arrow keys → move selection
- * N          → toggle notes mode
- * H          → request hint
- * Escape     → clear selection / close modal
- */
+
+
 export function useKeyboardControls({
   selectedCell,
   givenCells,
@@ -48,21 +40,18 @@ export function useKeyboardControls({
 
       const { key } = e;
 
-      // ── Escape ─────────────────────────────────────────────────────
       if (key === 'Escape') {
         e.preventDefault();
         onEscape();
         return;
       }
 
-      // ── Notes toggle ───────────────────────────────────────────────
       if (key === 'n' || key === 'N') {
         e.preventDefault();
         onToggleNotes();
         return;
       }
 
-      // ── Hint ───────────────────────────────────────────────────────
       if (key === 'h' || key === 'H') {
         if (!isComplete && !isSolved) {
           e.preventDefault();
@@ -71,7 +60,6 @@ export function useKeyboardControls({
         return;
       }
 
-      // ── Arrow navigation ───────────────────────────────────────────
       if (
         key === 'ArrowUp' ||
         key === 'ArrowDown' ||
@@ -91,7 +79,6 @@ export function useKeyboardControls({
         return;
       }
 
-      // ── Number entry or erase ──────────────────────────────────────
       if (!selectedCell) return;
       const { row, col } = selectedCell;
       if (givenCells[row]?.[col]) return; // immutable given cell

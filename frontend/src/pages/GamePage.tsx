@@ -11,7 +11,8 @@ import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useSudokuGame } from '../hooks/useSudokuGame';
 import type { Difficulty } from '../types/sudoku';
 
-// ── Confirm dialog state ───────────────────────────────────────────────────
+
+
 
 type DialogKind = 'newGame' | 'solve' | null;
 
@@ -20,7 +21,7 @@ interface DialogState {
   pendingDifficulty?: Difficulty;
 }
 
-// ── Page ───────────────────────────────────────────────────────────────────
+
 
 export function GamePage() {
   const {
@@ -61,7 +62,6 @@ export function GamePage() {
     statusMessages,
   } = state;
 
-  // ── Dialog handlers ────────────────────────────────────────────────────
 
   const handleNewGameRequest = useCallback(
     (d: Difficulty) => {
@@ -93,7 +93,6 @@ export function GamePage() {
     setDialog({ kind: null });
   }, []);
 
-  // ── Completion modal handlers ──────────────────────────────────────────
 
   const handleCompletionNewGame = useCallback(() => {
     void startNewGame(difficulty);
@@ -103,7 +102,6 @@ export function GamePage() {
     void startNewGame(difficulty);
   }, [startNewGame, difficulty]);
 
-  // ── Escape key clears selection / closes modal ─────────────────────────
 
   const handleEscape = useCallback(() => {
     if (dialog.kind !== null) {
@@ -113,7 +111,6 @@ export function GamePage() {
     selectCell(null);
   }, [dialog.kind, selectCell]);
 
-  // ── Keyboard controls ──────────────────────────────────────────────────
 
   useKeyboardControls({
     selectedCell,
@@ -129,16 +126,13 @@ export function GamePage() {
     onEscape: handleEscape,
   });
 
-  // ── Derived flags ──────────────────────────────────────────────────────
 
   const controlsDisabled = loading || isComplete || isSolved;
   const canUndo = history.length > 0;
 
-  // ── Render ─────────────────────────────────────────────────────────────
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-100">
-      {/* ── Page header ──────────────────────────────────────────────── */}
       <header className="py-6 px-4 text-center">
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Sudoku</h1>
         <p className="mt-1 text-sm text-slate-400 font-medium tracking-wide">
@@ -146,14 +140,11 @@ export function GamePage() {
         </p>
       </header>
 
-      {/* ── Main content ─────────────────────────────────────────────── */}
       <main className="flex-1 flex flex-col items-center px-4 pb-10 gap-4">
-        {/* Game card */}
         <div
           className="w-full max-w-xl bg-white rounded-2xl shadow-md border border-slate-100
                      flex flex-col gap-5 p-6"
         >
-          {/* Row 1: difficulty selector + new game */}
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <DifficultySelector
               current={selectedDifficulty}
@@ -172,7 +163,6 @@ export function GamePage() {
             </button>
           </div>
 
-          {/* Row 2: game metadata (difficulty badge, timer, mistakes) */}
           <GameHeader
             difficulty={difficulty}
             elapsed={elapsed}
@@ -180,7 +170,6 @@ export function GamePage() {
             loading={loading}
           />
 
-          {/* Row 3: board */}
           <SudokuBoard
             board={board}
             givenCells={givenCells}
@@ -192,28 +181,24 @@ export function GamePage() {
             loading={loading}
           />
 
-          {/* Loading caption */}
           {loading && (
             <p className="text-center text-sm text-slate-400 -mt-2" aria-live="polite">
               Generating puzzle…
             </p>
           )}
 
-          {/* Solved caption */}
           {isSolved && !isComplete && (
             <p className="text-center text-sm text-slate-500 font-medium">
               Puzzle solved.
             </p>
           )}
 
-          {/* Row 4: number pad */}
           <NumberPad
             board={board}
             onNumber={(n) => void enterNumber(n)}
             disabled={controlsDisabled || !selectedCell || (selectedCell !== null && givenCells[selectedCell.row]?.[selectedCell.col])}
           />
 
-          {/* Row 5: game controls */}
           <GameControls
             notesMode={notesMode}
             canUndo={canUndo}
@@ -227,17 +212,14 @@ export function GamePage() {
             onSolve={handleSolveRequest}
           />
 
-          {/* Row 6: status messages */}
           <GameStatus messages={statusMessages} onDismiss={dismissStatus} />
 
-          {/* Keyboard hints */}
           <p className="text-xs text-slate-300 text-center leading-relaxed">
             Arrows to navigate&nbsp;&nbsp;·&nbsp;&nbsp;N for notes&nbsp;&nbsp;·&nbsp;&nbsp;H for hint&nbsp;&nbsp;·&nbsp;&nbsp;Backspace to erase
           </p>
         </div>
       </main>
 
-      {/* ── Modals ─────────────────────────────────────────────────────── */}
 
       {isComplete && (
         <CompletionModal
