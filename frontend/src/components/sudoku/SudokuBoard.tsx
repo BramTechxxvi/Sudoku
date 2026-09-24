@@ -2,6 +2,9 @@ import { memo } from 'react';
 import type { CellCoord, GivenCells, NotesGrid, SudokuBoard as SudokuBoardType } from '../../types/sudoku';
 import { SudokuCell } from './SudokuCell';
 
+
+
+
 interface SudokuBoardProps {
   board: SudokuBoardType;
   givenCells: GivenCells;
@@ -23,7 +26,6 @@ function SudokuBoardInner({
   onSelectCell,
   loading,
 }: SudokuBoardProps) {
-  // The number in the selected cell — used to highlight all matching digits
   const highlightNumber =
     selectedCell !== null ? board[selectedCell.row][selectedCell.col] : 0;
 
@@ -60,7 +62,6 @@ function SudokuBoardInner({
   );
 }
 
-// ── Loading skeleton ──────────────────────────────────────────────────────
 
 function BoardSkeleton() {
   return (
