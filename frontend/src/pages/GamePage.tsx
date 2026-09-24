@@ -14,13 +14,13 @@ import type { Difficulty } from '../types/sudoku';
 
 
 
+
 type DialogKind = 'newGame' | 'solve' | null;
 
 interface DialogState {
   kind: DialogKind;
   pendingDifficulty?: Difficulty;
 }
-
 
 
 export function GamePage() {
