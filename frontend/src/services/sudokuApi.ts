@@ -8,7 +8,6 @@ import type {
   SudokuBoard,
 } from '../types/sudoku';
 
-// ── Base URL validation ────────────────────────────────────────────────────
 
 const API_BASE_URL: string = (() => {
   const url = import.meta.env.VITE_API_BASE_URL as string | undefined;
@@ -21,7 +20,6 @@ const API_BASE_URL: string = (() => {
   return url.replace(/\/$/, ''); // strip trailing slash
 })();
 
-// ── FastAPI 422 detail shape ───────────────────────────────────────────────
 
 interface ValidationError {
   loc: (string | number)[];
@@ -33,7 +31,6 @@ interface FastApiErrorBody {
   detail?: string | ValidationError[];
 }
 
-// ── Reusable request helper ────────────────────────────────────────────────
 
 async function request<T>(
   path: string,
@@ -58,12 +55,10 @@ async function request<T>(
     );
   }
 
-  // Parse body regardless of status so we can extract error detail
   let body: unknown;
   try {
     body = await response.json();
   } catch {
-    // Body is not JSON (e.g. 502 HTML error page)
     console.error('[sudokuApi] Non-JSON response:', response.status, response.statusText);
     throw new Error(
       `Server returned an unexpected response (${response.status}). Please try again.`,
@@ -71,10 +66,10 @@ async function request<T>(
   }
 
   if (!response.ok) {
-    // Handle FastAPI 422 Unprocessable Entity
     if (response.status === 422) {
       const errorBody = body as FastApiErrorBody;
       const detail = errorBody?.detail;
+
       if (Array.isArray(detail)) {
         const messages = detail.map((e) => e.msg).join('; ');
         const err = new Error(`Validation error: ${messages}`);
@@ -96,19 +91,13 @@ async function request<T>(
   return body as T;
 }
 
-// ── API functions ──────────────────────────────────────────────────────────
 
-/** GET /new?difficulty={difficulty} */
 export async function createNewGame(difficulty: Difficulty): Promise<NewGameResponse> {
   return request<NewGameResponse>(`/new?difficulty=${difficulty}`, {
     method: 'GET',
   });
 }
 
-/**
- * POST /move
- * number can be 0 (clear cell) through 9
- */
 export async function playMove(
   board: SudokuBoard,
   row: number,
@@ -121,7 +110,6 @@ export async function playMove(
   });
 }
 
-/** POST /check */
 export async function checkBoard(board: SudokuBoard): Promise<CheckResponse> {
   return request<CheckResponse>('/check', {
     method: 'POST',
@@ -129,7 +117,6 @@ export async function checkBoard(board: SudokuBoard): Promise<CheckResponse> {
   });
 }
 
-/** POST /hint */
 export async function getHint(board: SudokuBoard): Promise<HintResponse> {
   return request<HintResponse>('/hint', {
     method: 'POST',
@@ -137,7 +124,6 @@ export async function getHint(board: SudokuBoard): Promise<HintResponse> {
   });
 }
 
-/** POST /solve */
 export async function solveBoard(board: SudokuBoard): Promise<SolveResponse> {
   return request<SolveResponse>('/solve', {
     method: 'POST',
