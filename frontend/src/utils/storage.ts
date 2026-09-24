@@ -1,20 +1,18 @@
 import type { NotesGrid, PersistedGame } from '../types/sudoku';
 
+
+
+
+
 const STORAGE_KEY = 'sudoku_game_v1';
 
-// ── Notes serialisation ───────────────────────────────────────────────────
-
-/** Serialise NotesGrid (Set[][]) to a plain number[][][] for JSON */
 function serialiseNotes(notes: NotesGrid): number[][][] {
   return notes.map((row) => row.map((cell) => Array.from(cell)));
 }
 
-/** Deserialise number[][][] back to NotesGrid */
 function deserialiseNotes(raw: number[][][]): NotesGrid {
   return raw.map((row) => row.map((cell) => new Set(cell)));
 }
-
-// ── Save ──────────────────────────────────────────────────────────────────
 
 export function saveGame(game: Omit<PersistedGame, 'savedAt' | 'notes'> & { notes: NotesGrid }): void {
   try {
@@ -25,12 +23,10 @@ export function saveGame(game: Omit<PersistedGame, 'savedAt' | 'notes'> & { note
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch (err) {
-    // localStorage might be full or disabled — fail silently
     console.warn('[storage] Could not save game:', err);
   }
 }
 
-// ── Load ──────────────────────────────────────────────────────────────────
 
 export interface LoadedGame extends Omit<PersistedGame, 'notes'> {
   notes: NotesGrid;
@@ -43,7 +39,6 @@ export function loadGame(): LoadedGame | null {
 
     const parsed = JSON.parse(raw) as PersistedGame;
 
-    // Basic shape validation
     if (
       !Array.isArray(parsed.board) ||
       !Array.isArray(parsed.initialBoard) ||
@@ -56,7 +51,6 @@ export function loadGame(): LoadedGame | null {
       return null;
     }
 
-    // Ensure board is 9×9
     if (
       parsed.board.length !== 9 ||
       parsed.board.some((r) => !Array.isArray(r) || r.length !== 9)
@@ -77,12 +71,10 @@ export function loadGame(): LoadedGame | null {
   }
 }
 
-// ── Clear ─────────────────────────────────────────────────────────────────
 
 export function clearGame(): void {
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch {
-    // ignore
   }
 }
