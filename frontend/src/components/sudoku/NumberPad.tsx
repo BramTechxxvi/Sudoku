@@ -2,6 +2,9 @@ import { memo } from 'react';
 import type { SudokuBoard } from '../../types/sudoku';
 import { countDigits } from '../../utils/board';
 
+
+
+
 interface NumberPadProps {
   board: SudokuBoard;
   onNumber: (n: number) => void;
@@ -29,12 +32,11 @@ function NumberPadInner({ board, onNumber, disabled }: NumberPadProps) {
             disabled={disabled}
             aria-label={`Enter ${n}${completed ? ', all placed' : ''}`}
             className={[
-              // Base layout
               'flex items-center justify-center',
               'aspect-square rounded-lg',
               'text-[clamp(16px,3.5vw,24px)] font-semibold leading-none',
               'border transition-all duration-150',
-              // States
+
               disabled
                 ? 'opacity-40 cursor-not-allowed bg-white border-slate-200 text-slate-400'
                 : completed

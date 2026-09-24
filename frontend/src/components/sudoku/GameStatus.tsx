@@ -2,6 +2,9 @@ import { X } from 'lucide-react';
 import { memo } from 'react';
 import type { StatusMessage } from '../../types/sudoku';
 
+
+
+
 interface GameStatusProps {
   messages: StatusMessage[];
   onDismiss: (id: number) => void;
