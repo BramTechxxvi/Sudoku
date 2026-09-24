@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import type { CellCoord, GivenCells } from '../types/sudoku';
 
+
+
+
 interface UseKeyboardControlsOptions {
   selectedCell: CellCoord | null;
   givenCells: GivenCells;
@@ -32,7 +35,6 @@ export function useKeyboardControls({
 }: UseKeyboardControlsOptions): void {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if focus is inside an input/textarea/select/button
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
@@ -81,7 +83,7 @@ export function useKeyboardControls({
 
       if (!selectedCell) return;
       const { row, col } = selectedCell;
-      if (givenCells[row]?.[col]) return; // immutable given cell
+      if (givenCells[row]?.[col]) return; 
 
       if (isComplete || isSolved) return;
 
