@@ -1,5 +1,8 @@
 import { memo, useEffect, useRef } from 'react';
 
+
+
+
 interface ConfirmDialogProps {
   title: string;
   message: string;
@@ -45,7 +48,6 @@ function ConfirmDialogInner({
       }}
     >
       <div className="animate-fade-in bg-white rounded-2xl shadow-lg w-full max-w-xs p-6 flex flex-col gap-5">
-        {/* Header */}
         <div>
           <h2
             id="confirm-dialog-title"

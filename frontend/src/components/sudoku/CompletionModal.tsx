@@ -3,6 +3,10 @@ import { memo, useEffect, useRef } from 'react';
 import type { Difficulty } from '../../types/sudoku';
 import { difficultyLabel, formatTime } from '../../utils/board';
 
+
+
+
+
 interface CompletionModalProps {
   difficulty: Difficulty;
   elapsed: number;
