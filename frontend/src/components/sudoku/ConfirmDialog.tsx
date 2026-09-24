@@ -21,12 +21,10 @@ function ConfirmDialogInner({
 }: ConfirmDialogProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  // Focus cancel by default (safe default)
   useEffect(() => {
     cancelRef.current?.focus();
   }, []);
 
-  // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onCancel();
@@ -36,7 +34,6 @@ function ConfirmDialogInner({
   }, [onCancel]);
 
   return (
-    /* Backdrop */
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4"
       role="dialog"
@@ -47,7 +44,6 @@ function ConfirmDialogInner({
         if (e.target === e.currentTarget) onCancel();
       }}
     >
-      {/* Card */}
       <div className="animate-fade-in bg-white rounded-2xl shadow-lg w-full max-w-xs p-6 flex flex-col gap-5">
         {/* Header */}
         <div>
@@ -65,7 +61,6 @@ function ConfirmDialogInner({
           </p>
         </div>
 
-        {/* Actions */}
         <div className="flex gap-2">
           <button
             ref={cancelRef}
