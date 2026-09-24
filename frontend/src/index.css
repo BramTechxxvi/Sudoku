@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-/* ── Design tokens ───────────────────────────────────────────────── */
+
+
 :root {
   /* Base palette */
   --color-bg:            #f1f5f9;   /* slate-100 */
