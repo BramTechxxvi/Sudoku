@@ -150,8 +150,8 @@ export function GamePage() {
       <main className="flex-1 flex flex-col items-center px-4 pb-10 gap-4">
         {/* Game card */}
         <div
-          className="w-full max-w-lg bg-white rounded-2xl shadow-md border border-slate-100
-                     flex flex-col gap-5 p-5"
+          className="w-full max-w-xl bg-white rounded-2xl shadow-md border border-slate-100
+                     flex flex-col gap-5 p-6"
         >
           {/* Row 1: difficulty selector + new game */}
           <div className="flex items-center justify-between gap-3 flex-wrap">

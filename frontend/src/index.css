@@ -64,7 +64,7 @@ body {
 
 /* ── Sudoku board sizing ─────────────────────────────────────────── */
 .sudoku-board-container {
-  width: min(90vw, 504px);
+  width: min(100%, 560px);
   aspect-ratio: 1 / 1;
 }
 
