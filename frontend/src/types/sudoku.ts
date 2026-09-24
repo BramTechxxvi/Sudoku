@@ -1,9 +1,5 @@
-// ── Core domain types ──────────────────────────────────────────────────────
-
 export type SudokuBoard = number[][];
-
 export type Difficulty = 'easy' | 'medium' | 'hard';
-
 export interface CellCoord {
   row: number;
   col: number;
@@ -14,19 +10,14 @@ export interface Hint {
   col: number;
   number: number;
 }
-
-// ── API response shapes (match backend contract exactly) ───────────────────
-
 export interface NewGameResponse {
   difficulty: Difficulty;
   puzzle: SudokuBoard;
 }
-
 export interface MoveResponse {
   valid: boolean;
   board: SudokuBoard;
 }
-
 export interface CheckResponse {
   valid: boolean;
   complete: boolean;
@@ -41,20 +32,16 @@ export interface SolveResponse {
   board: SudokuBoard;
 }
 
-// ── UI state types ─────────────────────────────────────────────────────────
-
-/** A 9×9 grid of sets — each cell holds candidate note numbers */
 export type NotesGrid = Set<number>[][];
 
-/** Which cells are "given" (provided by the puzzle, immutable) */
 export type GivenCells = boolean[][];
 
 export type CellState =
-  | 'given'        // original puzzle clue — immutable
-  | 'user'         // value entered by the player
-  | 'hint'         // value filled in via hint
-  | 'solved'       // value filled by the solve endpoint
-  | 'empty';       // no value
+  | 'given'        
+  | 'user'         
+  | 'hint'         
+  | 'solved'       
+  | 'empty';       
 
 export interface StatusMessage {
   id: number;
@@ -62,7 +49,6 @@ export interface StatusMessage {
   type: 'info' | 'success' | 'error' | 'warning';
 }
 
-// ── Persisted game snapshot (localStorage) ────────────────────────────────
 
 export interface PersistedGame {
   board: SudokuBoard;
@@ -72,12 +58,10 @@ export interface PersistedGame {
   elapsedTime: number;
   mistakes: number;
   hintsUsed: number;
-  /** Notes serialised as number[][] per cell (Set is not JSON-serialisable) */
   notes: number[][][];
-  savedAt: number; // Unix ms
+  savedAt: number;
 }
 
-// ── Game hook state shape ─────────────────────────────────────────────────
 
 export interface GameState {
   board: SudokuBoard;
@@ -95,10 +79,10 @@ export interface GameState {
   solveLoading: boolean;
   error: string | null;
   isComplete: boolean;
-  isSolved: boolean;       // revealed via /solve
+  isSolved: boolean;       
   gameStarted: boolean;
   timerRunning: boolean;
-  invalidCell: CellCoord | null;   // cell to animate as invalid
-  hintCell: CellCoord | null;      // cell to animate as hint
+  invalidCell: CellCoord | null;   
+  hintCell: CellCoord | null;      
   statusMessages: StatusMessage[];
 }
